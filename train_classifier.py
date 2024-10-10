@@ -13,17 +13,29 @@ from tensorboardX import SummaryWriter
 from tqdm import tqdm
 from model import PointNet_classifier, PointNet_features
 
+import shutil #cp used in linux, so import shutil instead
+
+# def _init_(args):
+# 	if not os.path.exists('checkpoints'):
+# 		os.makedirs('checkpoints')
+# 	if not os.path.exists('checkpoints/' + args.exp_name):
+# 		os.makedirs('checkpoints/' + args.exp_name)
+# 	if not os.path.exists('checkpoints/' + args.exp_name + '/' + 'models'):
+# 		os.makedirs('checkpoints/' + args.exp_name + '/' + 'models')
+# 	os.system('cp main.py checkpoints' + '/' + args.exp_name + '/' + 'main.py.backup')
+# 	os.system('cp model.py checkpoints' + '/' + args.exp_name + '/' + 'model.py.backup')
+
 
 def _init_(args):
-	if not os.path.exists('checkpoints'):
-		os.makedirs('checkpoints')
-	if not os.path.exists('checkpoints/' + args.exp_name):
-		os.makedirs('checkpoints/' + args.exp_name)
-	if not os.path.exists('checkpoints/' + args.exp_name + '/' + 'models'):
-		os.makedirs('checkpoints/' + args.exp_name + '/' + 'models')
-	os.system('cp main.py checkpoints' + '/' + args.exp_name + '/' + 'main.py.backup')
-	os.system('cp model.py checkpoints' + '/' + args.exp_name + '/' + 'model.py.backup')
-
+    if not os.path.exists('checkpoints'):
+        os.makedirs('checkpoints')
+    if not os.path.exists('checkpoints/' + args.exp_name):
+        os.makedirs('checkpoints/' + args.exp_name)
+    if not os.path.exists('checkpoints/' + args.exp_name + '/' + 'models'):
+        os.makedirs('checkpoints/' + args.exp_name + '/' + 'models')
+    
+    shutil.copy('main.py', f'checkpoints/{args.exp_name}/main.py.backup')
+    shutil.copy('model.py', f'checkpoints/{args.exp_name}/model.py.backup')
 
 class IOStream:
 	def __init__(self, path):
@@ -187,7 +199,8 @@ def options():
 
 def main():
 	args = options()
-	args.dataset_path = os.path.join(os.getcwd(), os.pardir, os.pardir, 'ModelNet40', 'ModelNet40')
+	#args.dataset_path = os.path.join(os.getcwd(), os.pardir, os.pardir, 'ModelNet40', 'ModelNet40')
+	args.dataset_path = r'C:\Code\ModelNet40'
 
 	torch.backends.cudnn.deterministic = True
 	torch.manual_seed(args.seed)
