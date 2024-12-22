@@ -149,6 +149,7 @@ def run(args, trainset, testset, action):
         if is_best:
             save_checkpoint(snap, args.outfile, 'snap_best')
             save_checkpoint(model.state_dict(), args.outfile, 'model_best')
+            LOGGER.info('best model epoch', epoch)
 
         save_checkpoint(snap, args.outfile, 'snap_last')
         save_checkpoint(model.state_dict(), args.outfile, 'model_last')

@@ -1,17 +1,28 @@
 #! /usr/bin/bash
+#$ -l tmem=20G
+#$ -l gpu=true
+#$ -pe gpu 1
+#$ -N ljiang_generate_rotations
+#$ -o /SAN/medic/MRpcr/logs/genrot_output.log
+#$ -e /SAN/medic/MRpcr/logs/genrot_error.log
+#$ -wd /SAN/medic/MRpcr
 
-# generate perturbations for each object (for each 'ModelNet40/[category]/test/*')
+# Activate Conda environment
+source /home/ljiang/miniconda3/etc/profile.d/conda.sh
+conda activate my_env_name
 
-# for output
-OUTDIR=${HOME}/results/ex1/gt
+# Create output directory
+OUTDIR=/SAN/medic/MRpcr/result/gt
 mkdir -p ${OUTDIR}
 
 # Python3 command
-PY3="nice -n 10 python"
+PY3=$(which python)
 
-# categories for testing
-CMN="-i /home/yasuhiro/work/pointnet/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt"
+# Categories for testing
+CMN="-i /SAN/medic/MRpcr/datasets/ModelNet40 -c /SAN/medic/MRpcr/PointNetLK/experiments/sampledata/modelnet40_half1.txt --format wt"
 
+cd /SAN/medic/MRpcr/PointNetLK/experiments
+# Generate rotations
 ${PY3} generate_rotations.py ${CMN} -o ${OUTDIR}/pert_000.csv --deg 0.0
 ${PY3} generate_rotations.py ${CMN} -o ${OUTDIR}/pert_010.csv --deg 10.0
 ${PY3} generate_rotations.py ${CMN} -o ${OUTDIR}/pert_020.csv --deg 20.0
@@ -31,6 +42,5 @@ ${PY3} generate_rotations.py ${CMN} -o ${OUTDIR}/pert_150.csv --deg 150.0
 ${PY3} generate_rotations.py ${CMN} -o ${OUTDIR}/pert_160.csv --deg 160.0
 ${PY3} generate_rotations.py ${CMN} -o ${OUTDIR}/pert_170.csv --deg 170.0
 ${PY3} generate_rotations.py ${CMN} -o ${OUTDIR}/pert_180.csv --deg 180.0
-
 
 #EOF

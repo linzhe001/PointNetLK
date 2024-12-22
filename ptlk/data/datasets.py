@@ -22,6 +22,19 @@ class ModelNet(globset.Globset):
             pattern = ['train/*.off', 'test/*.off']
         super().__init__(dataset_path, pattern, loader, transform, classinfo)
 
+class MyDataset(globset.Globset):
+    """ Custom Dataset containing two .off files """
+    def __init__(self, dataset_path, train=1, transform=None, classinfo=None):
+        loader = mesh.offread 
+
+        if train > 0:
+            pattern = 'train/*.off'  
+        elif train == 0:
+            pattern = 'test/*.off'   
+        else:
+            pattern = ['train/*.off', 'test/*.off']
+        super().__init__(dataset_path, pattern, loader, transform, classinfo)
+
 class ShapeNet2(globset.Globset):
     """ [ShapeNet](https://www.shapenet.org/) v2 """
     def __init__(self, dataset_path, transform=None, classinfo=None):

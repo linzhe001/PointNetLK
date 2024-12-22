@@ -211,15 +211,6 @@ def get_datasets(args):
 
         testset = ptlk.data.datasets.CADset4tracking_fixed_perturbation(testdata,\
                         perturbations, fmt_trans=fmt_trans)
-    elif args.dataset_type == 'mycustom':
-        transform = torchvision.transforms.Compose([
-        ptlk.data.transforms.Mesh2Points(),
-        ptlk.data.transforms.OnUnitCube(),
-    ])
-
-    test_dataset = ptlk.data.datasets.MyDataset(args.dataset_path, train=0, transform=transform)
-
-    testset = ptlk.data.datasets.CADset4tracking_fixed_perturbation(test_dataset, perturbations=[], fmt_trans=False)
 
     return testset
 
